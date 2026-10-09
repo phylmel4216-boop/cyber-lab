@@ -1,6 +1,7 @@
 import socket
+import os
 
-print("\n===== NETWORK INFORMATION =====")
+os.makedirs("data", exist_ok=True)
 
 hostname = socket.gethostname()
 
@@ -9,5 +10,15 @@ try:
 except socket.error:
     ip = "Unavailable"
 
-print("Hostname:", hostname)
-print("Local IP:", ip)
+result = (
+    "===== CYBER LAB NETWORK INFORMATION =====\n\n"
+    f"Hostname: {hostname}\n"
+    f"Local IP: {ip}\n"
+)
+
+print(result)
+
+with open("data/network_info.txt", "w") as file:
+    file.write(result)
+
+print("Saved to: data/network_info.txt")

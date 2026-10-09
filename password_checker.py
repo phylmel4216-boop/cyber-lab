@@ -1,6 +1,10 @@
 import string
+import os
+from datetime import datetime
 
-password = input("Enter a password to check: ")
+os.makedirs("data", exist_ok=True)
+
+password = input("Enter a test password: ")
 
 score = 0
 
@@ -19,11 +23,25 @@ if any(c.isdigit() for c in password):
 if any(c in string.punctuation for c in password):
     score += 1
 
-print()
-
 if score <= 2:
-    print("Strength: Weak")
+    strength = "Weak"
 elif score <= 4:
-    print("Strength: Medium")
+    strength = "Medium"
 else:
-    print("Strength: Strong")
+    strength = "Strong"
+
+print()
+print("Password strength:", strength)
+
+result = (
+    f"Date: {datetime.now()}\n"
+    f"Strength: {strength}\n"
+    f"Score: {score}/5\n"
+    "Password stored: No\n"
+    "------------------------------\n"
+)
+
+with open("data/password_results.txt", "a") as file:
+    file.write(result)
+
+print("Result saved to: data/password_results.txt")

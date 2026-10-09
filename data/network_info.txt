@@ -1,0 +1,4 @@
+===== CYBER LAB NETWORK INFORMATION =====
+
+Hostname: localhost
+Local IP: 127.0.0.1

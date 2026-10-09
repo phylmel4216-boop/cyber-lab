@@ -1,10 +1,13 @@
 import hashlib
 import os
+from datetime import datetime
 
-file_path = input("Enter the file path: ")
+os.makedirs("data", exist_ok=True)
+
+file_path = input("Enter the file path to check: ")
 
 if not os.path.isfile(file_path):
-    print("File not found.")
+    print("File not found. Check the path and try again.")
 else:
     sha256 = hashlib.sha256()
 
@@ -17,6 +20,20 @@ else:
 
             sha256.update(data)
 
+    file_hash = sha256.hexdigest()
+
+    result = (
+        "===== FILE INTEGRITY RESULT =====\n"
+        f"Date: {datetime.now()}\n"
+        f"File: {file_path}\n"
+        f"SHA-256: {file_hash}\n"
+        "=================================\n\n"
+    )
+
     print()
-    print("File:", file_path)
-    print("SHA-256:", sha256.hexdigest())
+    print(result)
+
+    with open("data/integrity_results.txt", "a") as file:
+        file.write(result)
+
+    print("Result saved to: data/integrity_results.txt")
