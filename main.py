@@ -1,72 +1,43 @@
 import subprocess
-from datetime import datetime
+import sys
 import os
 
-LOG_FILE = "data/activity.log"
-
-
-def log_activity(message):
-    os.makedirs("data", exist_ok=True)
-
-    with open(LOG_FILE, "a") as log:
-        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        log.write(f"[{time}] {message}\n")
-
-
 while True:
-    print()
-    print("==============================")
-    print("       CYBER LAB v1.1")
-    print("==============================")
+    print("\n===== CYBER LAB =====")
     print("1. System Information")
-    print("2. Password Strength Checker")
+    print("2. Password Checker")
     print("3. File Integrity Checker")
     print("4. Network Information")
     print("5. Local Port Checker")
-    print("6. View Activity Log")
-    print("7. Exit")
+    print("6. Generate Report")
+    print("7. Tools Dashboard")
+    print("8. Exit")
 
-    choice = input("\nChoose an option: ")
+    choice = input("Choose an option: ")
 
-    if choice == "1":
-        log_activity("System Information started")
-        subprocess.run(["python", "sysinfo.py"])
+    tools = {
+        "1": "sysinfo.py",
+        "2": "password_checker.py",
+        "3": "integrity_checker.py",
+        "4": "network_info.py",
+        "5": "port_checker.py",
+        "6": "report_generator.py",
+        "7": "dashboard.py"
+    }
 
-    elif choice == "2":
-        log_activity("Password Strength Checker started")
-        subprocess.run(["python", "password_checker.py"])
-
-    elif choice == "3":
-        log_activity("File Integrity Checker started")
-        subprocess.run(["python", "integrity_checker.py"])
-
-    elif choice == "4":
-        log_activity("Network Information started")
-        subprocess.run(["python", "network_info.py"])
-
-    elif choice == "5":
-        log_activity("Local Port Checker started")
-        subprocess.run(["python", "port_checker.py"])
-
-    elif choice == "6":
-        print("\n===== ACTIVITY LOG =====")
-
-        if os.path.exists(LOG_FILE):
-            with open(LOG_FILE, "r") as log:
-                content = log.read()
-
-            if content:
-                print(content)
-            else:
-                print("No activity recorded yet.")
-        else:
-            print("No activity recorded yet.")
-
-    elif choice == "7":
-        print("\nGoodbye!")
+    if choice == "8":
+        print("Goodbye, bro!")
         break
 
-    else:
-        print("\nInvalid choice.")
+    elif choice in tools:
+        filename = tools[choice]
 
-    input("\nPress Enter to return to the menu...")
+        if os.path.isfile(filename):
+            subprocess.run([sys.executable, filename])
+        else:
+            print("Tool not found:", filename)
+
+    else:
+        print("Invalid choice.")
+
+    input("Press Enter to continue...")
